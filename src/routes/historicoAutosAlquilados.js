@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createOne, deleteOne, getAll, updatedOne} = require('../components/historicoAutosAlquilados');
+const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/historicoAutosAlquilados');
 
 router.get('/', getAll);
 router.post('/', createOne);

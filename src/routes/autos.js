@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createOne, deleteOne, getAll, updatedOne} = require('../components/autos');
+const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/autos');
 
 router.get('/', getAll);
 router.post('/', createOne);

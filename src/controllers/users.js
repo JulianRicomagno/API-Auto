@@ -1,14 +1,14 @@
 module.exports = {
-    getAll : (req,res)=>{
+    getAll: (req,res)=>{
         res.send('working'); 
     },
-    createOne : (req,res)=>{
+    createOne: (req,res)=>{
         res.send('working'); 
     },
-    updatedOne : (req,res)=>{
+    updatedOne: (req,res)=>{
         res.send('working'); 
     },
-    deleteOne : (req,res)=>{
+    deleteOne: (req,res)=>{
         res.send('working'); 
     },
 };
