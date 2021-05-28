@@ -7,12 +7,13 @@ module.exports = {
         res.send('working'); 
     },
     createOne: async (req,res)=>{
-        const {name, auto} = req.body
+        const {name, auto} = req.body;
         const newEstacionamiento = new estacionamientosModel();
-        
+
         newEstacionamiento.name = name;
         newEstacionamiento.auto = auto;
 
+        
         await newEstacionamiento.save();
 
         res.send('Saved'); 

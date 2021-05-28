@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/JulianRicomagno/API-Auto#readme",
   "dependencies": {
+    "@hapi/boom": "^9.1.2",
+    "@hapi/joi": "^17.1.1",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "mongoose": "^5.12.10"
