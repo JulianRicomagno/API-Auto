@@ -1,14 +1,33 @@
+const {mongo: {usersModel},} = require('../../databases');
+
 module.exports = {
-    getAll: (req,res)=>{
-        res.send('working'); 
+    getAll: async (req,res)=>{
+        const users = await usersModel.find();
+        res.json(users); 
     },
-    createOne: (req,res)=>{
-        res.send('working'); 
+    createOne: async (req,res)=>{
+        const {firstName, lastName, age, document, auto, password, mail} = req.body;
+        const newUser = new usersModel({firstName, lastName, age, document, auto, password, mail});
+        
+        await newUser.save();
+
+        res.send(`El usuario ${newUser.firstName}, ha sido registrado`); 
     },
-    updatedOne: (req,res)=>{
-        res.send('working'); 
+    updatedOne: async (req,res)=>{
+        const { _id } = req.params;
+        const {firstName, lastName, age, document, auto, password, mail} = req.body;
+        const returnValue = await usersModel.findByIdAndUpdate(
+            _id, {
+                $set: {firstName, lastName, age, document, auto, password, mail},
+            }, { useFindAndModify: false},
+        );
+        console.log(returnValue);
+        res.send('User updated'); 
     },
-    deleteOne: (req,res)=>{
-        res.send('working'); 
+    deleteOne: async (req,res)=>{
+        const { _id } = req.params;
+        const removed = await usersModel.findByIdAndDelete(_id);
+        console.log(removed);
+        res.send('Deleted'); 
     },
 };

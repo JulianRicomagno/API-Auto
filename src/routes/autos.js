@@ -7,7 +7,7 @@ const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/autos
 
 router.get('/', getAll);
 router.post('/', validate(autosSchema), createOne);
-router.put('/', validate(autosSchema), updatedOne);
-router.delete('/:id', deleteOne);
+router.put('/:_id', validate(autosSchema), updatedOne);
+router.delete('/:_id', deleteOne);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/estac
 
 router.get('/', getAll);
 router.post('/', validate(estacionamientoSchema), createOne);
-router.put('/', validate(estacionamientoSchema), updatedOne);
-router.delete('/:id', deleteOne);
+router.put('/:_id', validate(estacionamientoSchema), updatedOne);
+router.delete('/:_id', deleteOne);
 
 module.exports = router;

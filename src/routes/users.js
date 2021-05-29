@@ -8,7 +8,7 @@ const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/users
 
 router.get('/', getAll);
 router.post('/', validate(usersSchema), createOne);
-router.put('/', validate(usersSchema), updatedOne);
-router.delete('/:id', deleteOne);
+router.put('/:_id', validate(usersSchema), updatedOne);
+router.delete('/:_id', deleteOne);
 
 module.exports = router;

@@ -3,8 +3,9 @@ const {
 } = require('../../databases');
 
 module.exports = {
-    getAll: (req,res)=>{
-        res.send('working'); 
+    getAll: async (req,res)=>{
+        const estacionamientos = await estacionamientosModel.find();
+        res.json(estacionamientos); 
     },
     createOne: async (req,res)=>{
         const {name, auto} = req.body;
@@ -13,15 +14,24 @@ module.exports = {
         newEstacionamiento.name = name;
         newEstacionamiento.auto = auto;
 
-        
         await newEstacionamiento.save();
-
         res.send('Saved'); 
     },
-    updatedOne: (req,res)=>{
-        res.send('working'); 
+    updatedOne: async (req,res)=>{
+        const { _id } = req.params;
+        const {name, auto} = req.body;
+        const returnValue = await estacionamientosModel.findByIdAndUpdate(
+            _id, {
+                $set: {name, auto},
+            }, { useFindAndModify: false},
+        );
+        console.log(returnValue);
+        res.send('Estacionamiento updated'); 
     },
-    deleteOne: (req,res)=>{
-        res.send('working'); 
+    deleteOne: async (req,res)=>{
+        const { _id } = req.params;
+        const removed = await estacionamientosModel.findByIdAndDelete(_id);
+        console.log(removed);
+        res.send('Deleted'); 
     },
 };

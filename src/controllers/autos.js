@@ -1,14 +1,33 @@
+const {mongo: {autosModel},} = require('../../databases');
+
 module.exports = {
-    getAll: (req,res)=>{
-        res.send('working'); 
+    getAll: async (req,res)=>{
+        const autos = await autosModel.find();
+        res.json(autos); 
     },
-    createOne: (req,res)=>{
-        res.send('working'); 
+    createOne: async (req,res)=>{
+        const {modelo, marca, año, estado, imagen, usersList} = req.body;
+        const newAuto = new autosModel({modelo, marca, año, estado: 'Disponible', imagen, usersList});
+        
+        await newAuto.save();
+
+        res.send(`El auto ${newAuto.modelo}, ${newAuto.marca} ha sido guardado`); 
     },
-    updatedOne: (req,res)=>{
-        res.send('working'); 
+    updatedOne: async (req,res)=>{
+        const { _id } = req.params;
+        const {modelo, marca, año, estado, imagen, usersList} = req.body;
+        const returnValue = await autosModel.findByIdAndUpdate(
+            _id, {
+                $set: {modelo, marca, año, estado, imagen, usersList},
+            }, { useFindAndModify: false},
+        );
+        console.log(returnValue);
+        res.send('Auto updated'); 
     },
-    deleteOne: (req,res)=>{
-        res.send('working'); 
+    deleteOne: async (req,res)=>{
+        const { _id } = req.params;
+        const removed = await autosModel.findByIdAndDelete(_id);
+        console.log(removed);
+        res.send('Deleted'); 
     },
 };

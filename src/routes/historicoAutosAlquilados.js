@@ -8,7 +8,7 @@ const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/histo
 
 router.get('/', getAll);
 router.post('/', validate(historicoSchema), createOne);
-router.put('/', validate(historicoSchema), updatedOne);
-router.delete('/:id', deleteOne);
+router.put('/:_id', validate(historicoSchema), updatedOne);
+router.delete('/:_id', deleteOne);
 
 module.exports = router;
