@@ -7,7 +7,7 @@ module.exports = {
     },
     createOne: async (req,res)=>{
         const {modelo, marca, año, estado, imagen, usersList} = req.body;
-        const newAuto = new autosModel({modelo, marca, año, estado: 'Disponible', imagen, usersList});
+        const newAuto = new autosModel({modelo, marca, año, estado: 'Disponible', imagen});
         
         await newAuto.save();
 
@@ -15,10 +15,10 @@ module.exports = {
     },
     updatedOne: async (req,res)=>{
         const { _id } = req.params;
-        const {modelo, marca, año, estado, imagen, usersList} = req.body;
+        const {modelo, marca, año, imagen } = req.body;
         const returnValue = await autosModel.findByIdAndUpdate(
             _id, {
-                $set: {modelo, marca, año, estado, imagen, usersList},
+                $set: {modelo, marca, año, imagen},
             }, { useFindAndModify: false},
         );
         console.log(returnValue);

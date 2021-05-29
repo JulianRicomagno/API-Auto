@@ -5,7 +5,6 @@ const schema = Joi.object({
     lastName: Joi.string().required(),
     age: Joi.number().required(),
     document: Joi.number().required(),
-    auto: Joi.string(),
     password: Joi.string(),
     mail: Joi.string()
 });

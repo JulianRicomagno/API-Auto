@@ -6,8 +6,7 @@ const schema = new Schema ({
     marca: {type: String, required: true},
     año: {type: Number, required: true},
     estado: {type: String},
-    imagen: {type: String},
-    usersList: [{type: Schema.Types.ObjectId, refs: 'Users'}]
+    imagen: {type: String}
 })
 
 const model = mongoose.model('Autos', schema);

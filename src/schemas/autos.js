@@ -6,7 +6,6 @@ const schema = Joi.object({
     año: Joi.number().required(),
     estado: Joi.string(),
     imagen: Joi.string(),
-    usersList: Joi.string()
 });
 
 module.exports = schema;
