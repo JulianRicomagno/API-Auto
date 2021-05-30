@@ -5,7 +5,7 @@ const schema = new Schema ({
     date: {type: Date, required: true},
     auto: {type: Schema.Types.ObjectId, ref: 'Autos', autopopulate: true},
     user: {type: Schema.Types.ObjectId, ref: 'Users', autopopulate: true}
-})
+}, { timestamps: true })
 
 schema.plugin(require('mongoose-autopopulate'));
 

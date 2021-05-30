@@ -9,7 +9,7 @@ const schema = new Schema ({
     auto: [{type: Schema.Types.ObjectId, ref : 'Autos', autopopulate: false}],
     password: {type: String},
     mail: {type: String}
-})
+}, { timestamps: true })
 
 schema.plugin(require('mongoose-autopopulate'));
 

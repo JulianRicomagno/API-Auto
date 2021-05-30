@@ -7,7 +7,7 @@ const schema = new Schema ({
     año: {type: Number, required: true},
     estado: {type: String},
     imagen: {type: String}
-})
+}, { timestamps: true })
 
 const model = mongoose.model('Autos', schema);
 

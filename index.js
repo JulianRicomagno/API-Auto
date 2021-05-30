@@ -13,6 +13,7 @@ const { connection, ConnectionStates } = require('mongoose');
 
 (async () => {
     await mongoDBHelpers.connect();
+    +process.argv[2] && require('./databases/mongo/fake')();
     require('./server');
 })();
 
