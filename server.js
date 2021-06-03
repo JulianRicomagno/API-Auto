@@ -8,7 +8,7 @@ const usersRoutes = require('./src/routes/users');
 const historicoAutosAlquiladosRoutes = require('./src/routes/historicoAutosAlquilados');
 
 app.use(express.json());
-
+// solucionado el problema con CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin,     X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-    Method');
