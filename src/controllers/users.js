@@ -84,18 +84,27 @@ module.exports = {
         res.send('Alquiler Terminado');
     },
 
+    // Me rendí y le valido que no se repita el usuario desde el "Sign Up" ya que mongo no me quiere ayudar [=
+
     signUp: async (req, res) => {           
         const {firstName, lastName, age, document, password, mail, username} = req.body;
-        //try{
+        try{
+             // ---------- VALIDAR EMAIL Y USUARIO REPETIDO ---------
+            const usernameExists = await usersModel.findOne({username});
+            if(usernameExists != null){return res.send('Error 409, Already exists.');}
+
+            const emailExists = await usersModel.findOne({mail});
+            if(emailExists != null){return res.send('Error 409, Already exists.');}
+
+            // ---------- REGISTRAR AL USUARIO ----------
+
             const hashedPass = await encryptPassword(password);
             const registeredUser = new usersModel({firstName, lastName, age, document, password: hashedPass, mail, username});
-            await registeredUser.save();
-            res.send('Finished');
-            //await registeredUser.save((err) => {
-            //    if(err){return res.send(Boom.notAcceptable('Ya existe.'))}
-            //    return res.send(`El usuario ${registeredUser.username}, ha sido registrado con éxito.`);
-            //});
-        //}catch(error){return res.send(Boom.notAcceptable());}
+            await registeredUser.save((err) =>{
+                if(err){return res.send(Boom.notAcceptable('Ya existe.'))}
+                res.send(`El usuario ${registeredUser.username}, ha sido registrado con éxito.`);
+            });
+        }catch(error){res.send(error.message);}
     },
 
     signIn: async (req, res) =>{
