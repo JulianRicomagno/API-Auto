@@ -24,8 +24,10 @@
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "faker": "^5.5.3",
+    "mime-types": "^2.1.31",
     "mongoose": "^5.12.10",
     "mongoose-autopopulate": "^0.14.0",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.7"
   }
 }

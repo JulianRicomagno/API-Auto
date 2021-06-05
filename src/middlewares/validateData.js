@@ -6,7 +6,7 @@ module.exports = (schema) =>{
             await schema.validateAsync(req.body);
             next();
         } catch (error) {
-            res.send(Boom.badData());
+            res.status(422).send(Boom.badData());
         }
     };
 };

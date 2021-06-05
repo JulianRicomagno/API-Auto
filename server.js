@@ -8,6 +8,9 @@ const usersRoutes = require('./src/routes/users');
 const historicoAutosAlquiladosRoutes = require('./src/routes/historicoAutosAlquilados');
 
 app.use(express.json());
+
+app.use('uploads/', express.static('uploads'));
+
 // comentario 2
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
