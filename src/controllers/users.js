@@ -1,4 +1,7 @@
 const {mongo: {usersModel, autosModel, historicoModel},} = require('../../databases');
+const { findOne } = require('../../databases/mongo/models/autos');
+const {encryptPassword, validatePassword} = require('../../helpers/bcrypt');
+const Boom = require('@hapi/boom');
 
 module.exports = {
     getAll: async (req,res)=>{
@@ -80,4 +83,30 @@ module.exports = {
 
         res.send('Alquiler Terminado');
     },
+
+    signUp: async (req, res) => {           
+        const {firstName, lastName, age, document, password, mail, username} = req.body;
+        try{
+            const hashedPass = await encryptPassword(password);
+            const registeredUser = new usersModel({firstName, lastName, age, document, password: hashedPass, mail, username});
+            await registeredUser.save((err) =>{
+                if(err){return res.send(Boom.conflict('Error 409. Already Exists.'));} // Por si las dudas
+                res.send(`El usuario ${registeredUser.firstName} ${registeredUser.lastName}. Username: ${registeredUser.username}, ha sido registrado con éxito.`);
+            });
+        }catch(error){res.send(error.message);}
+    },
+
+    signIn: async (req, res) =>{
+        try{
+        const {username, password} = req.body;
+        const userFound = await usersModel.findOne({username});
+        if(userFound == null){return res.send('Failed credentials');}
+        const validated = await validatePassword(password, userFound.password);
+        if(!validated){return res.send('Failed credentials');}
+        return res.send('fin');
+        }catch(error){res.send(error.message);}
+
+        // TODA LA LOGICA DE JWT VA ACÁ - Usuario encontrado (username) Password validada (validated)
+
+    }
 };
