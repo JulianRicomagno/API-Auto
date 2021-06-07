@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const usersSchema = require('../schemas/users');
 const userLoginSchema = require('../schemas/userLogin');
-const validate = require('../middlewares/validateData');
+const {validate} = require('../middlewares/validateData');
 
 
 const {createOne, deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp} = require('../controllers/users');
