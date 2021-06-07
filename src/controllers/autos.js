@@ -1,4 +1,5 @@
 const {mongo: {autosModel},} = require('../../databases');
+const Boom = require('@hapi/boom');
 
 module.exports = {
     getAll: async (req,res)=>{
@@ -17,7 +18,8 @@ module.exports = {
     updatedOne: async (req,res)=>{
         const { _id } = req.params;
         const {modelo, marca, año, imagen } = req.body;
-        const returnValue = await autosModel.findByIdAndUpdate(
+       // const returnValue = 
+        await autosModel.findByIdAndUpdate(
             _id, 
             {$set: {modelo, marca, año, imagen},
             }, { useFindAndModify: false}, (err, auto) => {
@@ -32,7 +34,7 @@ module.exports = {
 
     deleteOne: async (req,res)=>{
         const { _id } = req.params;
-        const removed = await autosModel.findByIdAndDelete(_id, (err, auto)=> {
+        await autosModel.findByIdAndDelete(_id, (err, auto)=> {
             if(!auto){
                 return res.status(404).send(Boom.notFound("Error , no existe auto con el ID solicitado"));
             }else{

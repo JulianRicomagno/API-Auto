@@ -2,9 +2,10 @@ const { mongo: { usersModel, autosModel, historicoModel }, } = require('../../da
 const { encryptPassword, validatePassword } = require('../../helpers/bcrypt');
 const Boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
+const {JWTsecret} = require('../../config/index');
 
 function generateToken(user) {
-    const token = jwt.sign({ _id: user._id }, 'secretKey', { expiresIn: "2h" });
+    const token = jwt.sign({ _id: user._id }, JWTsecret, { expiresIn: "2h" });
     return token;
 }
 
@@ -170,7 +171,10 @@ module.exports = {
                 return res.send('Failed credentials'); 
             }
             const token = generateToken(userFound);
-            return res.status(200).send({ userFound, token });
+            return res.status(200).send({ 
+                usuario: userFound,
+                token: token 
+            });
         } catch (error) {
             res.status(401).send(error.message); 
             }
