@@ -6,7 +6,7 @@ const autosRoutes = require('./src/routes/autos');
 const estacionamientosRoutes = require('./src/routes/estacionamientos');
 const usersRoutes = require('./src/routes/users');
 const historicoAutosAlquiladosRoutes = require('./src/routes/historicoAutosAlquilados');
-const tokenValidator = require('./src/middlewares/validateData')
+const validateToken = require('./src/middlewares/validateToken')
 
 app.use(express.json());
 // comentario 50
@@ -18,11 +18,11 @@ app.use((req, res, next) => {
     next();
 })
 
-//esta OK el tokenValidator aca?
-app.use('/api/autos', tokenValidator, autosRoutes);
-app.use('/api/estacionamientos', tokenValidator, estacionamientosRoutes);
+
+app.use('/api/autos',validateToken,  autosRoutes);
+app.use('/api/estacionamientos',validateToken,  estacionamientosRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/historico',tokenValidator, historicoAutosAlquiladosRoutes);
+app.use('/api/historico',validateToken,  historicoAutosAlquiladosRoutes);
 
 app.listen(port, () =>{
     console.log(`Server listen on port ${port}` )

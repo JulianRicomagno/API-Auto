@@ -1,39 +1,15 @@
 const Boom = require('@hapi/boom');
-const jwt = requiere('jsonwebtoken');
 
-/*
+//validador de los esquemas
 module.exports = (schema) =>{
-    return async (req, res, next) => {
+        return async(req, res, next) =>{
         try {
             await schema.validateAsync(req.body);
             next();
         } catch (error) {
-            res.send(Boom.badData());
+            res.status(422).send(Boom.badData());
         }
     };
-};*/
-
-export default function tokenValidator(req, res, next){
-    try{
-        const token = req.header('Token');
-        // cambiar secretKey por algo en .env
-        jwt.verify(token, 'secretKey');
-        next();
-    }catch(error){
-        res.status(401).send({error: error.message + 'you must signIn'});
-    }
-};
+}
 
 
-function validate(schema) {
-    return async (req, res, next) => {
-        try {
-            await schema.validateAsync(req.body);
-            next();
-        } catch (error) {
-            res.send(Boom.badData());
-        }
-    };
-};
-
-module.exports = validate;
