@@ -1,65 +1,95 @@
 const { mongo: { usersModel, autosModel, historicoModel }, } = require('../../databases');
-const { findOne } = require('../../databases/mongo/models/autos');
 const { encryptPassword, validatePassword } = require('../../helpers/bcrypt');
 const Boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 
+function generateToken(user) {
+    const token = jwt.sign({ _id: user._id }, 'secretKey', { expiresIn: "2h" });
+    return token;
+}
+
 module.exports = {
     getAll: async (req, res) => {
         const users = await usersModel.find();
-        res.json(users);
+        res.status(200).json(users);
     },
+
     createOne: async (req, res) => {
         const { firstName, lastName, age, document, password, mail } = req.body;
         const newUser = new usersModel({ firstName, lastName, age, document, password, mail });
-
         await newUser.save();
-
-        res.send(`El usuario ${newUser.firstName}, ha sido registrado`);
+        res.status(200).send(`El usuario ${newUser.firstName}, ha sido registrado`);
     },
+
     updatedOne: async (req, res) => {
         const { _id } = req.params;
         const { firstName, lastName, age, document } = req.body;
         const returnValue = await usersModel.findByIdAndUpdate(
             _id, {
             $set: { firstName, lastName, age, document },
-        }, { useFindAndModify: false },
+        }, { useFindAndModify: false }, (err, uss) =>{
+            if(!uss){
+                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+            }else{
+                res.status(200).send({
+                    message: "datos modificados exitosamente",
+                    body: uss
+                })
+                    console.log(returnValue);
+                    console.log(uss);
+            }
+        }
         );
-        console.log(returnValue);
-        res.send('User updated');
+        
     },
     deleteOne: async (req, res) => {
         const { _id } = req.params;
-        const removed = await usersModel.findByIdAndDelete(_id);
-        console.log(removed);
-        res.send('Deleted');
+        const removed = await usersModel.findByIdAndDelete(_id, (err, uss) =>{
+            if(!uss){
+                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+            }else{
+                res.status(200).send({
+                    message: "Usuario eliminado exitosamente",
+                    body: uss
+                })
+                    console.log(removed);
+                    console.log(uss);
+            }
+        });
     },
+
     alquilarAuto: async (req, res) => {
         //Recibo ID usuario
         const { _id } = req.params;
         //Recibo ID auto par alaquilar
         const { auto } = req.body;
 
-        //Asigno el auto al Usuario
-        await usersModel.findByIdAndUpdate(
-            _id, {
-            $push: { auto },
-        }, { useFindAndModify: false },
-        );
-
-        //Creo la transaccion historica
-        const newHistorico = new historicoModel({ date: Date.now(), auto: auto, user: _id });
-        await newHistorico.save();
-
-        //Asigno el auto al Usuario
+        
+        //Asigno el auto al Usuario, si este existe...
         await autosModel.findByIdAndUpdate(
             auto, {
             $set: { estado: 'Alquilado' },
-        }, { useFindAndModify: false },
-        );
-
-        res.send('Transacción realizada con Exito');
+        }, { useFindAndModify: false }, err =>{
+            if(err){
+                res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
+            }
+        })
+        ;
+        //Asigno el auto al Usuario, si este existe...
+        await usersModel.findByIdAndUpdate(
+            _id, {
+            $push: { auto },
+        }, { useFindAndModify: false }, (err, uss) =>{
+            if(!uss){
+                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+            }
+        });
+        //Creo la transaccion historica
+        const newHistorico = new historicoModel({ date: Date.now(), auto: auto, user: _id });
+        await newHistorico.save();
+        res.status(200).send('Transacción realizada con Exito');
     },
+
     terminarAlquiler: async (req, res) => {
         //Recibo ID usuario
         const { _id } = req.params;
@@ -70,19 +100,24 @@ module.exports = {
         await autosModel.findByIdAndUpdate(
             auto, {
             $set: { estado: 'Disponible' },
-        }, { useFindAndModify: false },
-        );
+        }, { useFindAndModify: false }, err =>{
+            if(err){
+                res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
+            }
+        })
+        ;
 
         //Asigno el auto al Usuario
         await usersModel.findByIdAndUpdate(
             _id, {
             $pull: { auto },
-        }, { useFindAndModify: false },
-        );
-
-
-
-        res.send('Alquiler Terminado');
+        }, { useFindAndModify: false }, (err, uss) =>{
+            if(!uss){
+                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+            }
+        });
+        
+        res.status(200).send('Alquiler Terminado');
     },
 
     signUp: async (req, res) => {
@@ -95,11 +130,15 @@ module.exports = {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));
                 } // Por si las dudas
                 res.send(`El usuario ${registeredUser.firstName} ${registeredUser.lastName}. Username: ${registeredUser.username}, ha sido registrado con éxito.`);
+
+                // si se puede lo hacemos
+
                 //aca se puede meter el signin asi? para que cuando se registre ya se le habra la sesion :D 
                 //opc 1: pisar el body
                 // req.body = {username: username, password: hashedPass};
                 //signIn(req, res);
-                /*
+
+                /* opc 2 - otro login solo de uso interno
                 function async signInRegistrado(username , res){
                     const userFound = await findOne({username});
                     const token = generateToken(userFound);
@@ -111,7 +150,8 @@ module.exports = {
                 }*/
 
             });
-        } catch (error) { res.send(error.message); }
+        } catch (error) { 
+            res.send(error.message); }
     },
 
     //agregue status y el envio de userFound y el token
@@ -119,21 +159,21 @@ module.exports = {
         try {
             const { username, password } = req.body;
             const userFound = await usersModel.findOne({ username });
-            if (userFound == null) { return res.send('Failed credentials'); }
+            
+            if (userFound == null) { 
+                return res.send('Failed credentials'); 
+            }
+
             const validated = await validatePassword(password, userFound.password);
-            if (!validated) { return res.send('Failed credentials'); }
+            
+            if (!validated) { 
+                return res.send('Failed credentials'); 
+            }
             const token = generateToken(userFound);
             return res.status(200).send({ userFound, token });
-        } catch (error) { res.status(401).send(error.message); }
-
-
-
-        // TODA LA LOGICA DE JWT VA ACÁ - Usuario encontrado (username) Password validada (validated)
-        function generateToken(user) {
-            const token = jwt.sign({ _id: user._id }, 'secretKey', { duration: '0,2h' });
-            return token;
-        }
-
-
+        } catch (error) {
+            res.status(401).send(error.message); 
+            }
     }
 };
+
