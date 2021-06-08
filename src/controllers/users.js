@@ -103,8 +103,7 @@ module.exports = {
         if(userFound == null){return res.send('Failed credentials');}
         const validated = await validatePassword(password, userFound.password);
         if(!validated){return res.send('Failed credentials');}
-        res.json({message:`user ${username} welcome` ,token: 'asd'});
-        // return res.send('fin');
+        return res.send('fin');
         }catch(error){res.send(error.message);}
 
         // TODA LA LOGICA DE JWT VA ACÁ - Usuario encontrado (username) Password validada (validated)
