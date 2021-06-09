@@ -65,30 +65,44 @@ module.exports = {
         //Recibo ID auto par alaquilar
         const { auto } = req.body;
 
+        //Le paso el auto por el req que recibo y luego le paso a la variable user el usuario
+        const variableAuto = await autosModel.findById(auto);
+        const variableUsers = await usersModel.findById(_id);
+        //const autos = JSON.parse(variable);
         
-        //Asigno el auto al Usuario, si este existe...
-        await autosModel.findByIdAndUpdate(
-            auto, {
-            $set: { estado: 'Alquilado' },
-        }, { useFindAndModify: false }, err =>{
-            if(err){
-                res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
-            }
-        })
-        ;
-        //Asigno el auto al Usuario, si este existe...
-        await usersModel.findByIdAndUpdate(
-            _id, {
-            $push: { auto },
-        }, { useFindAndModify: false }, (err, uss) =>{
-            if(!uss){
-                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
-            }
-        });
-        //Creo la transaccion historica
-        const newHistorico = new historicoModel({ date: Date.now(), auto: auto, user: _id });
-        await newHistorico.save();
-        res.status(200).send('Transacción realizada con Exito');
+        console.log(variableAuto.estado);
+        console.log(variableUsers.auto);
+        //valido que el auto este disponible y luego que el usuario no tenga auto alquilado
+        if(variableAuto.estado == "Disponible"){
+            if(variableUsers.auto.length == 0){
+                //Asigno al auto el estado Alquilado, si este existe...
+                await autosModel.findByIdAndUpdate(
+                    auto, {
+                    $set: { estado: 'Alquilado' },
+                    }, { useFindAndModify: false }, err =>{
+                        if(err){
+                        res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
+                    }
+                });
+
+                //Asigno el auto al Usuario, si este existe...
+                await usersModel.findByIdAndUpdate(
+                    _id, {
+                    $push: { auto },
+                    }, { useFindAndModify: false }, (err, uss) =>{
+                        if(!uss){
+                        res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+                        }
+                    });
+        
+                //Creo la transaccion historica        
+                const newHistorico = new historicoModel({ date: Date.now(), auto: auto, user: _id });
+                await newHistorico.save();
+                res.status(200).send('Transacción realizada con Exito');
+            };
+            res.status(406).send(Boom.notAcceptable('El usuario ya tiene un auto alquilado'));
+        };
+        res.status(406).send(Boom.notAcceptable("El auto ya fue alquilado"))
     },
 
     terminarAlquiler: async (req, res) => {
