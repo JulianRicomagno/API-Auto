@@ -10,9 +10,7 @@ module.exports = () =>{
         try {
             const token = req.header('Authorization');
             const decoded = jwt.decode(token);
-            console.log('id: ' + decoded._id);
             const userFound = await usersModel.findById(decoded._id);
-            console.log(userFound.username);
             if(userFound.isAdmin){
                 next();
             }else{

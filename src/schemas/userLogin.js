@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-// isAdmin no se agrega aún -
+// Valida el login : user, password y el recordarme.
 
 const schema = Joi.object({
     username: Joi.string().required(),

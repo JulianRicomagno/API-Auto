@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
+// IS ADMIN agregado - Tener en cuenta que cualquier usuario creado previo al miércoles (09/06) no va a tener el campo asignado.
+
 const schema = new Schema ({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
