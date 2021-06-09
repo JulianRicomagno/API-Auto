@@ -13,4 +13,4 @@ module.exports = {
 
 const getSaltAsync = async () =>{
     return await bcrypt.genSaltSync(+cryptSALT);
-   }
+    }
