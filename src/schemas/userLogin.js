@@ -8,6 +8,6 @@ const schema = Joi.object({
     rememberMe: Joi.boolean().required()
 });
 
-//asdasdasdasd//asdasdasdasd
+
 
 module.exports = schema;

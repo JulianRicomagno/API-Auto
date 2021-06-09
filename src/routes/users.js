@@ -25,6 +25,6 @@ router.put('/terminarAlquiler/:_id',validateToken(), terminarAlquiler);
 
 router.delete('/:_id',validateToken() , validateAdminRole() , deleteOne);
 
-//asdasdasdasd
+
 
 module.exports = router;

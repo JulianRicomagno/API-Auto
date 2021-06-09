@@ -16,7 +16,7 @@ const schema = new Schema ({
     isAdmin: {type: Boolean, required: true}
 }, { timestamps: true })
 
-//asdasdasdasd
+
 
 schema.plugin(require('mongoose-autopopulate'));
 

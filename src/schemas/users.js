@@ -12,5 +12,5 @@ const schema = Joi.object({
     isAdmin: Joi.boolean().required()
 });
 
-//asdasdasdasd
+
 module.exports = schema;
