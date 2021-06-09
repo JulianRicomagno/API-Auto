@@ -18,7 +18,6 @@ module.exports = ()=> {
         : console.log("algo salio mal :(");
 */
         console.log(data);
-        console.log(jwt.decode(token));
         next();
     }catch(error){
         return res.status(401).send({error: error.message + 'you must signIn'});

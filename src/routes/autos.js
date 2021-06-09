@@ -12,4 +12,6 @@ router.post('/', validateToken(), validateAdminRole(), validate(autosSchema), cr
 router.put('/:_id', validateToken(), validate(autosSchema), updatedOne);
 router.delete('/:_id', validateToken(), validateAdminRole(), deleteOne);
 
+
+//asdasdasdasd
 module.exports = router;

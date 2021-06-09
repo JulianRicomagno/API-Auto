@@ -13,4 +13,6 @@ router.post('/', validate(historicoSchema), createOne);
 router.put('/:_id', validate(historicoSchema), updatedOne);
 router.delete('/:_id', validateToken(), validateAdminRole(), deleteOne);
 
+
+//asdasdasdasd
 module.exports = router;
