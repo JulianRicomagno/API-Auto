@@ -4,7 +4,8 @@ const Joi = require('@hapi/joi');
 
 const schema = Joi.object({
     username: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    rememberMe: Joi.boolean().required()
 });
 
 module.exports = schema;
