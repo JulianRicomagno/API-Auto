@@ -13,7 +13,7 @@
 - login/singup de Usuario
 - alquilar un auto
 - terminar alquiler
-// - agregar autos a favoritos
+
 
 ---
 
@@ -26,7 +26,6 @@
 - Usuarios
 - Autos
 - Estacionamientos
-// - HistoricoAutosAlquilados
 
 ---
 
@@ -54,7 +53,7 @@ Instrucciones técnicas:
 3. Update One (PUT) = `localhost:3000/api/estacionamientos/id_estacionamiento`
 4. Delete One (DELETE) = `localhost:3000/api/estacionamientos/id_estacionamiento` 
 5. Assing Car (PUT) = `localhost:3000/api/estacionamientos/id_estacionamiento`
-// 6. GetCars (GET) = `localhost:3000/api/estacionamientos/id_estacionamiento/autos`
+
 
 ##### Historico
 
