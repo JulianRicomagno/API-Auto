@@ -3,14 +3,15 @@ const router = express.Router();
 const usersSchema = require('../schemas/users');
 const userLoginSchema = require('../schemas/userLogin');
 const validate = require('../middlewares/validateData');
-const validateToken = require('../middlewares/validateToken')
+const validateToken = require('../middlewares/validateToken');
+const validateAdminRole = require ('../middlewares/validateAdminRole');
 //const {JWTsecret} = require('../../config');
 
 
 
 const {createOne, deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp} = require('../controllers/users');
 
-router.get('/', getAll);
+router.get('/', validateToken(), validateAdminRole(), getAll);
 // router.post('/', validate(usersSchema), createOne);
 router.put('/:_id', validate(usersSchema), updatedOne);
 

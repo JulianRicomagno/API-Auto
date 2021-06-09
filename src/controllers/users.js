@@ -136,10 +136,10 @@ module.exports = {
     },
 
     signUp: async (req, res) => {
-        const { firstName, lastName, age, document, password, mail, username } = req.body;
+        const { firstName, lastName, age, document, password, mail, username , isAdmin} = req.body;
         try {
             const hashedPass = await encryptPassword(password);
-            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username });
+            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username , isAdmin});
             await registeredUser.save((err) => {
                 if (err) {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));
