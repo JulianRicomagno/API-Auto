@@ -7,11 +7,11 @@ const validateAdminRole = require('../middlewares/validateAdminRole');
 
 const {createOne, deleteOne, getAll, updatedOne, assingCar, removeCar} = require('../controllers/estacionamientos');
 
-router.get('/', validateToken(), validateAdminRole(), getAll);
+router.get('/', validateToken(), getAll);
 router.post('/', validate(estacionamientoSchema), validateToken(), validateAdminRole(), createOne);
 router.put('/:_id', validate(estacionamientoSchema), validateToken(), validateAdminRole(), updatedOne);
-router.put('/removeCar/:_id', removeCar);
-router.put('/assingCar/:_id', assingCar);
+router.put('/removeCar/:_id', validateToken(), validateAdminRole(), removeCar);
+router.put('/assingCar/:_id',validateToken(), validateAdminRole(), assingCar);
 router.delete('/:_id', validateToken(), validateAdminRole(), deleteOne);
 
 

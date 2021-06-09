@@ -8,10 +8,9 @@ const validateAdminRole = require ('../middlewares/validateAdminRole');
 
 
 
-const {createOne, deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp} = require('../controllers/users');
+const {deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp} = require('../controllers/users');
 
 router.get('/', validateToken(), validateAdminRole(), getAll);
-// router.post('/', validate(usersSchema), createOne); ??? < Remover ya que existe "SignUp" - consulta.
 router.put('/:_id', validate(usersSchema), updatedOne);
 
 // Register(SignUp) / Login(SignIn)

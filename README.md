@@ -14,11 +14,11 @@
 - alquilar un auto
 - terminar alquiler
 
-
 ---
 
 ### Actores/Roles
 - Usuarios
+- Administrador
 
 ---
 
@@ -26,11 +26,12 @@
 - Usuarios
 - Autos
 - Estacionamientos
+- Historico Transacciones
 
 ---
 
 ### Instrucciones Técnicas
-Instrucciones técnicas:
+
 1. Clonar/forkear el proyecto: `git clone`
 2. Instalar las dependencias que utiliza el proyecto: `npm install`
 3. Ejecutar la API `npm start`
@@ -54,13 +55,10 @@ Instrucciones técnicas:
 4. Delete One (DELETE) = `localhost:3000/api/estacionamientos/id_estacionamiento` 
 5. Assing Car (PUT) = `localhost:3000/api/estacionamientos/id_estacionamiento`
 
-
 ##### Historico
 
 1. Get All (GET) = `localhost:3000/api/historico`
-2. Create One (POST) = `localhost:3000/api/historico`
-3. Update One (PUT) = `localhost:3000/api/historico/id_historico`
-4. Delete One (DELETE) = `localhost:3000/api/historico/id_historico` 
+2. Delete One (DELETE) = `localhost:3000/api/historico/id_historico` 
 
 ##### Users
 
@@ -69,6 +67,5 @@ Instrucciones técnicas:
 3. Update One (PUT) = `localhost:3000/api/users/id_user`
 4. Alquilar Auto (PUT) = `localhost:3000/api/users/alquilarAuto/id_user`
 5. Terminar Alquiler (PUT) = `localhost:3000/api/users/terminaAlquiler/id_user`
-6. Update One (PUT) = `localhost:3000/api/users/id_user`
-7. SingIn (POST) = `localhost:3000/api/users/SingIn/id_user`
-8. SingUp (POST) = `localhost:3000/api/users/SingUp/id_user` 
+6. SingIn (POST) = `localhost:3000/api/users/SingIn/id_user`
+7. SingUp (POST) = `localhost:3000/api/users/SingUp/id_user` 

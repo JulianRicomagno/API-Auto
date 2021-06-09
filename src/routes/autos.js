@@ -7,9 +7,9 @@ const validateAdminRole = require('../middlewares/validateAdminRole');
 const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/autos');
 
 
-router.get('/', validateToken(), validateAdminRole(), getAll);
+router.get('/', validateToken(), getAll);
 router.post('/', validateToken(), validateAdminRole(), validate(autosSchema), createOne);
-router.put('/:_id', validateToken(), validate(autosSchema), updatedOne);
+router.put('/:_id', validateToken(), validateAdminRole(), validate(autosSchema), updatedOne);
 router.delete('/:_id', validateToken(), validateAdminRole(), deleteOne);
 
 

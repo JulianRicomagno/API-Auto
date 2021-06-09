@@ -6,11 +6,14 @@ const validateToken = require('../middlewares/validateToken');
 const validateAdminRole = require('../middlewares/validateAdminRole');
 
 
-const {createOne, deleteOne, getAll, updatedOne} = require('../controllers/historicoAutosAlquilados');
+const {/*createOne,*/ deleteOne, getAll, /*updatedOne*/} = require('../controllers/historicoAutosAlquilados');
 
 router.get('/', validateToken(), validateAdminRole(), getAll);
-router.post('/', validate(historicoSchema), createOne);
-router.put('/:_id', validate(historicoSchema), updatedOne);
+
+//YO LOS SACARIA PARA HACERLO MENOS PERMEABLE
+//router.post('/', validate(historicoSchema), createOne);
+//router.put('/:_id', validate(historicoSchema), updatedOne);
+
 router.delete('/:_id', validateToken(), validateAdminRole(), deleteOne);
 
 

@@ -20,10 +20,10 @@ app.use((req, res, next) => {
 
 // REVISAR TODAS LAS RUTAS!!
 
-app.use('/api/autos',   autosRoutes);
-app.use('/api/estacionamientos',  estacionamientosRoutes);
+app.use('/api/autos', autosRoutes);
+app.use('/api/estacionamientos', estacionamientosRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/historico',  historicoAutosAlquiladosRoutes);
+app.use('/api/historico', historicoAutosAlquiladosRoutes);
 
 app.listen(port, () =>{
     console.log(`Server listen on port ${port}` )

@@ -24,10 +24,10 @@ module.exports = {
 
     updatedOne: async (req, res) => {
         const { _id } = req.params;
-        const { firstName, lastName, age, document } = req.body;
+        const { firstName, lastName, age, document, isAdmin } = req.body;
         const returnValue = await usersModel.findByIdAndUpdate(
             _id, {
-            $set: { firstName, lastName, age, document },
+            $set: { firstName, lastName, age, document, isAdmin },
         }, { useFindAndModify: false }, (err, uss) =>{
             if(!uss){
                 res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
