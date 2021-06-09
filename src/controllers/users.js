@@ -4,8 +4,8 @@ const Boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 const {JWTsecret} = require('../../config/index');
 
-function generateToken(user) {
-    const token = jwt.sign({ _id: user._id }, JWTsecret, { expiresIn: "2h" });
+function generateToken(user, expires) {
+    const token = jwt.sign({ _id: user._id }, JWTsecret, { expiresIn: expires });
     return token;
 }
 
@@ -136,10 +136,10 @@ module.exports = {
     },
 
     signUp: async (req, res) => {
-        const { firstName, lastName, age, document, password, mail, username } = req.body;
+        const { firstName, lastName, age, document, password, mail, username , isAdmin} = req.body;
         try {
             const hashedPass = await encryptPassword(password);
-            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username });
+            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username , isAdmin});
             await registeredUser.save((err) => {
                 if (err) {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));
@@ -172,7 +172,7 @@ module.exports = {
     //agregue status y el envio de userFound y el token
     signIn: async (req, res) => {
         try {
-            const { username, password } = req.body;
+            const { username, password, rememberMe } = req.body;
             const userFound = await usersModel.findOne({ username });
             
             if (userFound == null) { 
@@ -184,7 +184,14 @@ module.exports = {
             if (!validated) { 
                 return res.send('Failed credentials'); 
             }
-            const token = generateToken(userFound);
+            if(rememberMe){  
+            const token = generateToken(userFound, "1y");
+            return res.status(200).send({ 
+                usuario: userFound,
+                token: token 
+            });
+            }
+            const token = generateToken(userFound, "2h");
             return res.status(200).send({ 
                 usuario: userFound,
                 token: token 
@@ -195,3 +202,4 @@ module.exports = {
     }
 };
 
+//asdasdasdasd//asdasdasdasd

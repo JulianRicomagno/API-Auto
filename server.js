@@ -10,7 +10,6 @@ const validateToken = require('./src/middlewares/validateToken')
 //const {JWTsecret} = require('../../config');
 
 app.use(express.json());
-// comentario 50
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin,     X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -19,11 +18,12 @@ app.use((req, res, next) => {
     next();
 })
 
+// REVISAR TODAS LAS RUTAS!!
 
-app.use('/api/autos',  validateToken(),  autosRoutes);
-app.use('/api/estacionamientos',validateToken(),  estacionamientosRoutes);
+app.use('/api/autos',   autosRoutes);
+app.use('/api/estacionamientos',  estacionamientosRoutes);
 app.use('/api/users', usersRoutes);
-app.use('/api/historico',validateToken(),  historicoAutosAlquiladosRoutes);
+app.use('/api/historico',  historicoAutosAlquiladosRoutes);
 
 app.listen(port, () =>{
     console.log(`Server listen on port ${port}` )

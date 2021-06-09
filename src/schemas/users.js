@@ -1,6 +1,5 @@
 const Joi = require('@hapi/joi');
 
-// isAdmin no se agrega aún -
 
 const schema = Joi.object({
     firstName: Joi.string().required(),
@@ -9,7 +8,9 @@ const schema = Joi.object({
     document: Joi.number().required(),
     password: Joi.string().required(),
     mail: Joi.string().required(),
-    username: Joi.string().required()
+    username: Joi.string().required(),
+    isAdmin: Joi.boolean().required()
 });
+
 
 module.exports = schema;

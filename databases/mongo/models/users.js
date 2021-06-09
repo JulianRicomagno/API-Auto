@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// "isAdmin" agregado pero no utilizado por ahora (veo si llego a hacer roles.)
+
+// IS ADMIN agregado - Tener en cuenta que cualquier usuario creado previo al miércoles (09/06) no va a tener el campo asignado.
 
 const schema = new Schema ({
     firstName: {type: String, required: true},
@@ -12,8 +13,10 @@ const schema = new Schema ({
     password: {type: String, required: true},
     mail: {type: String, required: true, unique: true},
     username: {type: String, required: true, unique: true},
-    isAdmin: {type: Boolean}
+    isAdmin: {type: Boolean, required: true}
 }, { timestamps: true })
+
+
 
 schema.plugin(require('mongoose-autopopulate'));
 
