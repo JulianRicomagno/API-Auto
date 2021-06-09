@@ -24,7 +24,7 @@ module.exports = {
                     res.status(404).send(Boom.notFound("solicitud incorrecta"));
                 }else{
                     res.status(200).send("modificacion exitosa")
-                    console.log(returnValue);
+                    //console.log(returnValue);
                 }
             }
         );
@@ -40,7 +40,7 @@ module.exports = {
                     message: "eliminacion exitosa del hisotial",
                     body: historico
                 });
-                console.log(removed);
+                //console.log(removed);
                 console.log(historico);
             }
         });

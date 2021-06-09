@@ -42,7 +42,7 @@ module.exports = {
                     messege: "Auto eliminado correctamente",
                     body: { auto}
                 });
-                console.log(removed);
+                //console.log(removed);
             }
             
         });

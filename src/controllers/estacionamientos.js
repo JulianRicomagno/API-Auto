@@ -1,6 +1,7 @@
 const {
     mongo: {estacionamientosModel},
 } = require('../../databases');
+const Boom = require('@hapi/boom');
 
 module.exports = {
     getAll: async (req,res)=>{
@@ -30,7 +31,7 @@ module.exports = {
                         body: est
                 })
                     console.log(est);
-                    console.log(returnValue);
+                    //console.log(returnValue);
                 }
             }
         );
@@ -44,7 +45,7 @@ module.exports = {
             }else{
                 res.status(200).send("Se eliminó el estacionaminto exitosamente")
                 console.log(est);
-                console.log(removed);
+                //console.log(removed);
             }
         });
     },
@@ -66,7 +67,7 @@ module.exports = {
                         body: est
                 })
                     console.log(est);
-                    console.log(agregado);
+                    //console.log(agregado);
                 }
             }
         );
@@ -85,7 +86,7 @@ module.exports = {
                 }else{
                     res.status(200).send("Auto removido exitosamente")
                     console.log(removed);
-                    console.log(removido);
+                    //console.log(removido);
                 }
             }
         );

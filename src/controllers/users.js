@@ -36,7 +36,7 @@ module.exports = {
                     message: "datos modificados exitosamente",
                     body: uss
                 })
-                    console.log(returnValue);
+                    //console.log(returnValue);
                     console.log(uss);
             }
         }
@@ -53,7 +53,7 @@ module.exports = {
                     message: "Usuario eliminado exitosamente",
                     body: uss
                 })
-                    console.log(removed);
+                    //console.log(removed);
                     console.log(uss);
             }
         });
