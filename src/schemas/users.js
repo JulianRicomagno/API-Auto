@@ -9,7 +9,7 @@ const schema = Joi.object({
     password: Joi.string().required(),
     mail: Joi.string().required(),
     username: Joi.string().required(),
-    isAdmin: Joi.boolean().required()
+    permsToken: Joi.string()
 });
 
 

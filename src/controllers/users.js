@@ -2,7 +2,12 @@ const { mongo: { usersModel, autosModel, historicoModel }, } = require('../../da
 const { encryptPassword, validatePassword } = require('../../helpers/bcrypt');
 const Boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
-const {JWTsecret} = require('../../config/index');
+const {JWTsecret, PERMS_KEY, ERRORLIST} = require('../../config/index');
+
+function validatePermissions(permsToken){
+    if(permsToken == null){return false}
+    return (permsToken == PERMS_KEY ? true : false);
+}
 
 function generateToken(user, expires) {
     const token = jwt.sign({ _id: user._id }, JWTsecret, { expiresIn: expires });
@@ -136,10 +141,11 @@ module.exports = {
     },
 
     signUp: async (req, res) => {
-        const { firstName, lastName, age, document, password, mail, username , isAdmin} = req.body;
+        const { firstName, lastName, age, document, password, mail, username, permsToken} = req.body;
         try {
+            const perms = validatePermissions(permsToken);
             const hashedPass = await encryptPassword(password);
-            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username , isAdmin});
+            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username , isAdmin: perms});
             await registeredUser.save((err) => {
                 if (err) {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));
