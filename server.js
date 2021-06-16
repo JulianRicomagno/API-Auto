@@ -9,6 +9,8 @@ const historicoAutosAlquiladosRoutes = require('./src/routes/historicoAutosAlqui
 const validateToken = require('./src/middlewares/validateToken')
 //const {JWTsecret} = require('../../config');
 
+app.set('port', port);
+
 app.use(express.json());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
