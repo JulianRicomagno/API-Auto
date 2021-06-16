@@ -4,17 +4,31 @@
 ---
 
 ### Descripción
-- El presente proyecto está siendo desarrollado de forma colaborativa por Julian Ricomagno, Santiago Cersosimo y Diego Boyatjian, utilizando node.js y mongoDB.
-- Éste consta de una API que permite alquilar un Auto de uno de los diferentes Estacionamientos que se proporciona en la app, almacenar la transaccion en una coleccion y finalizar el alquiler.
+
+- EL presente proyecto es una API de alquiler de autos, la cual permiteirá el registro y posterior login de usuarios,los cuales podran consultar
+el listado de estacionamientos con que cuenta la aplicación registrados (donde se encuentran los autos por alquilar). A partir de los estacionamientos el usuario podra ver los autos disponibles, de aquel estacionamiento al cual prefiera acercarse a retirar el auto. Una vez elegido el estacionamiento y vistos los autos disponibles, el usuario podra alquilar el auto que mas le guste, solo podra alquilar un auto por vez y este tiene que estar disponible. Una vez devuelto el auto en el estacionamiento podrá finalizar el alquiler desde la app podra cancelar el alquiler.
+
+- La app, por otra parte le permite al administrador el manejo de la alta, baja y modificación de los estacionamientos y autos con diferencia de las acciones que puede realizar el usuario comun.
 
 ---
 
 ### Funcionalidades
+
+#### Usuario
+
 - login/singup de Usuario
 - alquilar un auto
 - terminar alquiler
+- listar autos y estacionamientos
 
-Agregar Funcionalidades de admin
+#### Administrador
+
+- login/singup de Admin
+- alquilar un auto
+- terminar alquiler
+- alta de estacionamientos y autos
+- baja de estacionamientos y autos
+- modificaciones de estacionamientos y autos
 
 ---
 
