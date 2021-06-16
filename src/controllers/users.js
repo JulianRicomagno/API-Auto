@@ -3,10 +3,37 @@ const { encryptPassword, validatePassword } = require('../../helpers/bcrypt');
 const Boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 const {JWTsecret, PERMS_KEY, ERRORLIST} = require('../../config/index');
+const passwordValidator = require('password-validator');
+const emailValidator = require('email-validator');
 
 function validatePermissions(permsToken){
     if(permsToken == null){return false}
     return (permsToken == PERMS_KEY ? true : false);
+}
+
+function validateStringSchemas(received, type){    
+    switch(type){
+        case 'USERNAME':
+            let usernameSchema = new passwordValidator();
+            usernameSchema
+            .is().min(3)
+            .is().max(24)
+            .has().letters()
+            .has().not().spaces()
+            .has().not().symbols();
+            return (usernameSchema.validate(received));
+        case 'PASSWORD':
+            let passwordSchema = new passwordValidator();
+            passwordSchema
+            .is().min(6)
+            .is().max(32)
+            .has().letters()
+            .has().digits(3)
+            .has().not().spaces();
+            return (passwordSchema.validate(received));
+        case 'EMAIL':
+            return (emailValidator.validate(received));
+    }
 }
 
 function generateToken(user, expires) {
@@ -142,6 +169,17 @@ module.exports = {
 
     signUp: async (req, res) => {
         const { firstName, lastName, age, document, password, mail, username, permsToken} = req.body;
+        
+        // SI A ALGUIEN SE LE OCURRE UNA FORMA PARA QUE ESTO QUEDE MÁS LINDO QUE ME AVISE :P
+        if(!validateStringSchemas(password , 'PASSWORD')){
+            return res.send(ERRORLIST.passInvalida);
+        }
+        if(!validateStringSchemas(username, 'USERNAME')){
+            return res.send(ERRORLIST.userInvalido)
+        }
+        if(!validateStringSchemas(mail, 'EMAIL')){
+            return res.send(ERRORLIST.emailInvalido);
+        }
         try {
             const perms = validatePermissions(permsToken);
             const hashedPass = await encryptPassword(password);
