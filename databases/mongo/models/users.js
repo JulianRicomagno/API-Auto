@@ -13,7 +13,8 @@ const schema = new Schema ({
     password: {type: String, required: true},
     mail: {type: String, required: true, unique: true},
     username: {type: String, required: true, unique: true},
-    isAdmin: {type: Boolean, required: true}
+    isAdmin: {type: Boolean, required: true},
+    favoritos: [{type: Schema.Types.ObjectId, ref: 'Autos', autopopulate: true}]
 }, { timestamps: true })
 
 
