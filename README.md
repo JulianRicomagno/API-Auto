@@ -20,6 +20,8 @@ el listado de estacionamientos con que cuenta la aplicación registrados (donde 
 - alquilar un auto
 - terminar alquiler
 - listar autos y estacionamientos
+- agregar auto a favoritos
+- remover auto de favoritos
 
 #### Administrador
 
@@ -29,6 +31,8 @@ el listado de estacionamientos con que cuenta la aplicación registrados (donde 
 - alta de estacionamientos y autos
 - baja de estacionamientos y autos
 - modificaciones de estacionamientos y autos
+- agregar auto a favoritos
+- remover auto de favoritos
 
 ---
 
@@ -71,6 +75,7 @@ el listado de estacionamientos con que cuenta la aplicación registrados (donde 
 3. Update One (PUT) = `localhost:3000/api/estacionamientos/id`
 4. Delete One (DELETE) = `localhost:3000/api/estacionamientos/id` 
 5. Assing Car (PUT) = `localhost:3000/api/estacionamientos/id`
+6. Get Cats (GET) = `localhost:3000/api/estacionamientos/getCars/id`
 
 ##### Historico
 
@@ -86,3 +91,6 @@ el listado de estacionamientos con que cuenta la aplicación registrados (donde 
 5. Terminar Alquiler (PUT) = `localhost:3000/api/users/terminaAlquiler/id`
 6. SingIn (POST) = `localhost:3000/api/users/SingIn/id`
 7. SingUp (POST) = `localhost:3000/api/users/SingUp/id` 
+8. Obtener todos los favoritos favoritos (GET) = `localhost:3000/api/users/getAllMyFavorites/id`
+9. Agregar a favoritos (POST) = `localhost:3000/api/users/addToFavorites/id`
+10. Remover de favoritos (POST) = `localhost:3000/api/users/removeFromFavoritos/id`
