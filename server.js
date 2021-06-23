@@ -21,7 +21,6 @@ app.use((req, res, next) => {
 })
 
 // REVISAR TODAS LAS RUTAS!!
-
 app.use('/api/autos', autosRoutes);
 app.use('/api/estacionamientos', estacionamientosRoutes);
 app.use('/api/users', usersRoutes);

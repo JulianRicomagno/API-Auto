@@ -9,12 +9,7 @@ module.exports = {
         if(!estacionamientos){
             return res.status(404).send(Boom.notFound("no hay estacionamientos disponibles"))
         }else{
-            console.log("holaaa----")
-            res.status(200).send({
-                nombre: estacionamientos.name,
-                descripcion: estacionamientos.descripcion,
-                location: estacionamientos.location
-            });
+            res.status(200).send({estacionamientos});
         }
     },
     createOne: async (req, res) => {
