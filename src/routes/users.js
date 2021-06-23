@@ -8,19 +8,23 @@ const validateAdminRole = require ('../middlewares/validateAdminRole');
 
 
 
-const {deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp} = require('../controllers/users');
+const {deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp, 
+    addToFavorites, removeFromFavorites, getAllMyFavorites} = require('../controllers/users');
 
 router.get('/', validateToken(), validateAdminRole(), getAll);
+router.get('/getAllMyFavorites/:usuarioID', validateToken(), getAllMyFavorites);
+
 router.put('/:_id', validate(usersSchema), updatedOne);
 
 // Register(SignUp) / Login(SignIn)
 router.post('/SignUp/', validate(usersSchema), signUp);
 router.post('/SignIn/', validate(userLoginSchema), signIn);
+router.post('/addToFavorites/:usuarioID', validateToken(), addToFavorites);
+router.post('/removeFromFavorites/:usuarioID', validateToken(), removeFromFavorites);
 
 //Alquilar Autos
 router.put('/alquilarAuto/:_id',validateToken(), alquilarAuto);
 router.put('/terminarAlquiler/:_id',validateToken(), terminarAlquiler);
-
 
 router.delete('/:_id',validateToken() , validateAdminRole() , deleteOne);
 
