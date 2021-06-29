@@ -7,8 +7,6 @@ const { Schema } = mongoose;
 const schema = new Schema ({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
-    age: {type: Number, required: true},
-    document: {type: Number, required: true},
     auto: [{type: Schema.Types.ObjectId, ref : 'Autos', autopopulate: false}],
     password: {type: String, required: true},
     mail: {type: String, required: true, unique: true},

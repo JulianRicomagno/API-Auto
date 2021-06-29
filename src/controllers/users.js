@@ -48,18 +48,18 @@ module.exports = {
     },
 
     createOne: async (req, res) => {
-        const { firstName, lastName, age, document, password, mail } = req.body;
-        const newUser = new usersModel({ firstName, lastName, age, document, password, mail });
+        const { firstName, lastName, password, mail } = req.body;
+        const newUser = new usersModel({ firstName, lastName, password, mail });
         await newUser.save();
         res.status(200).send(`El usuario ${newUser.firstName}, ha sido registrado`);
     },
 
     updatedOne: async (req, res) => {
         const { _id } = req.params;
-        const { firstName, lastName, age, document, isAdmin } = req.body;
+        const { firstName, lastName, isAdmin } = req.body;
         const returnValue = await usersModel.findByIdAndUpdate(
             _id, {
-            $set: { firstName, lastName, age, document, isAdmin },
+            $set: { firstName, lastName, isAdmin },
         }, { useFindAndModify: false }, (err, uss) => {
             if (!uss) {
                 res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
@@ -168,7 +168,7 @@ module.exports = {
     },
 
     signUp: async (req, res) => {
-        const { firstName, lastName, age, document, password, mail, username, permsToken } = req.body;
+        const { firstName, lastName, password, mail, username, permsToken } = req.body;
 
         // SI A ALGUIEN SE LE OCURRE UNA FORMA PARA QUE ESTO QUEDE MÁS LINDO QUE ME AVISE :P
         if (!validateStringSchemas(password, 'PASSWORD')) {
@@ -183,7 +183,7 @@ module.exports = {
         try {
             const perms = validatePermissions(permsToken);
             const hashedPass = await encryptPassword(password);
-            const registeredUser = new usersModel({ firstName, lastName, age, document, password: hashedPass, mail, username, isAdmin: perms });
+            const registeredUser = new usersModel({ firstName, lastName, password: hashedPass, mail, username, isAdmin: perms });
             await registeredUser.save((err) => {
                 if (err) {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));

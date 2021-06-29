@@ -9,7 +9,7 @@ module.exports = {
 
     createOne: async (req,res)=>{
         //que seria userList??
-        const {modelo, marca, año, estado, imagen, usersList} = req.body;
+        const {modelo, marca, año, estado, imagen} = req.body;
         const newAuto = new autosModel({modelo, marca, año, estado: 'Disponible', imagen});
         await newAuto.save();
         res.status(200).send(`El auto ${newAuto.modelo}, ${newAuto.marca} ha sido guardado`); 
