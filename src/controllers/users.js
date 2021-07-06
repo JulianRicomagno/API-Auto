@@ -188,7 +188,7 @@ module.exports = {
                 if (err) {
                     return res.status(409).send(Boom.conflict('Error 409. Already Exists.'));
                 } // Por si las dudas
-                res.send(`El usuario ${registeredUser.firstName} ${registeredUser.lastName}. Username: ${registeredUser.username}, ha sido registrado con éxito.`);
+                res.status(200).json(`El usuario ${registeredUser.firstName} ${registeredUser.lastName}. Username: ${registeredUser.username}, ha sido registrado con éxito.`);
 
                 // si se puede lo hacemos
 
