@@ -8,12 +8,12 @@ const validateAdminRole = require ('../middlewares/validateAdminRole');
 
 
 
-const {deleteOne, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp, 
+const {deleteOne, getUsuario, getAll, updatedOne, alquilarAuto ,terminarAlquiler, signIn, signUp, 
     addToFavorites, removeFromFavorites, getAllMyFavorites} = require('../controllers/users');
 
 router.get('/', validateToken(), validateAdminRole(), getAll);
 router.get('/getAllMyFavorites/:usuarioID', validateToken(), getAllMyFavorites);
-
+router.get('/:_id', validateToken(), getUsuario)
 router.put('/:_id', validate(usersSchema), updatedOne);
 
 // Register(SignUp) / Login(SignIn)

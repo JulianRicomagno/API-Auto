@@ -46,6 +46,11 @@ module.exports = {
         const users = await usersModel.find();
         res.status(200).json(users);
     },
+    getUsuario: async(req, res)=>{
+        const id = req.params;
+        const users = await usersModel.findById(id);
+        res.status(200).json(users);
+    },
 
     createOne: async (req, res) => {
         const { firstName, lastName, password, mail } = req.body;
@@ -143,28 +148,48 @@ module.exports = {
         //Recibo ID auto par alaquilar
         const { auto } = req.body;
 
-        //Asigno el auto al Usuario
-        await autosModel.findByIdAndUpdate(
-            auto, {
-            $set: { estado: 'Disponible' },
-        }, { useFindAndModify: false }, err => {
-            if (err) {
-                res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
-            }
-        })
-            ;
 
-        //Asigno el auto al Usuario
-        await usersModel.findByIdAndUpdate(
-            _id, {
-            $pull: { auto },
-        }, { useFindAndModify: false }, (err, uss) => {
-            if (!uss) {
-                res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
-            }
-        });
+        //Le paso el auto por el req que recibo y luego le paso a la variable user el usuario
+        const variableAuto = await autosModel.findById(auto);
+        const variableUsers = await usersModel.findById(_id);
 
-        res.status(200).send('Alquiler Terminado');
+        console.log(variableAuto);
+
+        if (variableAuto.estado == "Alquilado") {
+            if (variableUsers.auto.length > 0) {
+
+                //Cambio estado del auto
+                await autosModel.findByIdAndUpdate(
+                    auto, {
+                        $set: { estado: 'Disponible' },
+                        }, { useFindAndModify: false }, err => {
+                    if (err) {
+                        res.status(404).send(Boom.notFound("el ID del auto es incorrecto"));
+                    }
+                    });
+                
+                //Booro el auto del usuario
+                await usersModel.findByIdAndUpdate(
+                    _id, {
+                    $pull: { auto },
+                }, { useFindAndModify: false }, (err, uss) => {
+                    if (!uss) {
+                        res.status(404).send(Boom.notFound("No existe Usuario con el ID solicitado"))
+                    }
+                });
+
+                res.status(200).json('Alquiler Terminado');
+
+            }
+            res.status(406).send(Boom.notAcceptable('El usuario no tiene auto alquilado'));
+        }
+        res.status(406).send(Boom.notAcceptable("El auto no esta alquilado"))
+
+        
+
+        
+
+        
     },
 
     signUp: async (req, res) => {

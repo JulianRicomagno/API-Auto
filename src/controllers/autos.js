@@ -6,6 +6,11 @@ module.exports = {
         const autos = await autosModel.find();
         res.status(200).json(autos); 
     },
+    getAuto: async (req, res) =>{
+        const id = req.params;
+        const autos = await autosModel.findById(id);
+        res.status(200).json(autos);
+    },
 
     createOne: async (req,res)=>{
         //que seria userList??
