@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { JWTsecret, PERMS_KEY, ERRORLIST } = require('../../config/index');
 const passwordValidator = require('password-validator');
 const emailValidator = require('email-validator');
+const { findOne } = require('../../databases/mongo/models/autos');
 
 function validatePermissions(permsToken) {
     if (permsToken == null) { return false }
@@ -276,13 +277,19 @@ module.exports = {
     addToFavorites: async (req, res) => {
         const {autoID } = req.body;
         const {usuarioID} = req.params;
+        let flag = false;
 
         const variableAuto = await autosModel.findById(autoID);
             if(variableAuto == null){
                 return  res.status(404).send("no se encontro el auto enviado")
             }
 
-
+            const elFav = await usersModel.findById(usuarioID);
+            elFav.favoritos.forEach(auto => {if(auto._id == autoID) flag = true;})
+            if(flag){
+                console.log("fallo");
+                return res.status(422).send('Ya se encontraba el auto como favorito');
+            }
         const miFavorito = await usersModel.findByIdAndUpdate(usuarioID, {
             $push: { favoritos: autoID },
         }, { useFindAndModify: false }, (err, autF) => {
